@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://github.com/knowledgetree-dev/knowledge-tree-sdk/releases"><img src="https://img.shields.io/github/v/release/knowledgetree-dev/knowledge-tree-sdk?style=flat&label=version" alt="Version"></a>
-  <a href="#"><img src="https://img.shields.io/github/actions/workflow/status/knowledgetree-dev/knowledge-tree-sdk/ci.yml?branch=main&style=flat&label=CI" alt="CI"></a>
+  <a href="https://github.com/knowledgetree-dev/knowledge-tree-sdk/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/knowledgetree-dev/knowledge-tree-sdk/ci.yml?branch=main&style=flat&label=CI" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License"></a>
   <a href="https://pkg.go.dev/github.com/knowledgetree-dev/knowledge-tree-sdk"><img src="https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat" alt="Go Reference"></a>
 </p>
