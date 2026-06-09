@@ -1,0 +1,84 @@
+---
+name: 🐛 Bug Report
+description: Create a report to help us improve
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🐛 Bug Description
+        A clear and concise description of what the bug is.
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: 🔄 Reproduction Steps
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Import the SDK...
+        2. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: ✅ Expected Behavior
+      description: What you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 🔍 Logs
+      description: Paste any relevant error output or logs
+      render: shell
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: 📦 Area
+      options:
+        - Plugin interface / SDK
+        - gRPC / protocol
+        - Resource building helpers
+        - Documentation
+        - Release / build
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 📦 Version
+      description: What version are you using?
+      placeholder: e.g., v0.1.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: go-version
+    attributes:
+      label: 🐹 Go Version
+      options:
+        - "1.22"
+        - "1.23"
+        - "1.24"
+        - "1.25"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📋 Additional Context
+      description: Add any other context about the problem here
+
+  - type: textarea
+    id: possible-solution
+    attributes:
+      label: ✨ Possible Solution
+      description: If you have ideas on how to fix this, please describe them here

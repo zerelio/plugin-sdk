@@ -12,7 +12,7 @@
 
 ---
 
-**knowledge-tree-sdk** is the Go framework for writing discovery plugins that feed infrastructure data into [Knowledge Tree](https://github.com/knowledgetree-dev). A plugin connects to a provider API (AWS, GitHub, Kubernetes, etc.), discovers resources, and streams them back as structured events via gRPC.
+Build discovery plugins that feed infrastructure data into [Knowledge Tree](https://github.com/knowledgetree-dev). A plugin connects to any provider API (AWS, GitHub, Kubernetes, PagerDuty, etc.), discovers resources, and streams them back as structured events via gRPC.
 
 Plugins are standalone binaries launched as subprocesses via [hashicorp/go-plugin](https://github.com/hashicorp/go-plugin). No shared libraries, no sidecars — drop a binary in the plugin directory and it works.
 
@@ -29,15 +29,17 @@ import (
 
 type MyPlugin struct{ sdk.BasePlugin }
 
-func (p *MyPlugin) Info(ctx context.Context) (*plugin.PluginInfo, error) {
+func (p *MyPlugin) Info(context.Context, *plugin.Empty) (*plugin.PluginInfo, error) {
     return &plugin.PluginInfo{
-        Name:    "my-provider",
-        Version: "0.1.0",
+        Name:        "my-provider",
+        Version:     "0.1.0",
         Description: "Discovers widgets from MyProvider",
     }, nil
 }
 
-func (p *MyPlugin) Discover(ctx context.Context, req *plugin.DiscoverRequest) (<-chan plugin.DiscoveryEvent, error) {
+func (p *MyPlugin) Discover(ctx context.Context, req *plugin.DiscoverRequest) (
+    <-chan plugin.DiscoveryEvent, error,
+) {
     ch := make(chan plugin.DiscoveryEvent)
     go func() {
         defer close(ch)
@@ -66,25 +68,69 @@ Every plugin implements `plugin.DiscoveryPlugin`:
 | Method | Purpose |
 |--------|---------|
 | `Info()` | Return metadata: name, version, capabilities, config schema |
-| `ValidateConfig()` | Check if a config map is valid for this plugin |
-| `Discover()` | Stream resources, relationships, and progress via a channel |
+| `ValidateConfig(*ValidateConfigRequest)` | Check if a config map is valid for this plugin |
+| `Discover(*DiscoverRequest, plugin.DiscoveryPlugin_DiscoverServer)` | Stream resources, relationships, and progress |
 
-The SDK provides helpers for resource creation, relationship linking, progress reporting, error handling, and config parsing.
+The SDK provides:
+
+- **Resource helpers** — `sdk.NewResource()`, `sdk.NewRelationship()` with type-safe builders
+- **gRPC transport** — hashicorp/go-plugin over stdin/stdout multiplexing — zero port conflicts
+- **Config parsing** — structured config validation from raw maps
+- **Progress reporting** — stream progress events during long discovery runs
 
 ## Architecture
 
 ```
-Knowledge Tree API ←→ Plugin Manager ←→ plugin binary (gRPC subprocess)
-                                           └── calls provider API
-                                               → emits resources + relationships
+┌─────────────────────────────────────────────┐
+│ Knowledge Tree Plugin Manager                │
+│  ┌──────────┐   gRPC/stdin    ┌──────────┐ │
+│  │ Manager  │◄──────────────►│  Plugin  │ │
+│  │          │   subprocess    │  Binary  │ │
+│  └──────────┘                 └────┬─────┘ │
+│                                    │        │
+│  Knowledge Tree API ◄──────────────┘        │
+└─────────────────────────────────────────────┘
 ```
 
-Communication uses [hashicorp/go-plugin](https://github.com/hashicorp/go-plugin) over gRPC stdin/stdout multiplexing. The orchestrator spawns the plugin binary, negotiates the handshake, and streams discovery events.
+The orchestrator spawns the plugin binary, negotiates the go-plugin handshake, and streams discovery events. Plugins never need to know about the transport layer — the SDK handles it.
+
+## Resource Model
+
+```go
+// A discovered infrastructure entity
+resource := sdk.NewResource(
+    provider,          // "aws"
+    resourceType,      // "ec2.instance"
+    region,            // "us-east-1"
+    accountID,         // "acct-123"
+    name,              // "web-server-01"
+    sdk.WithProperty("instance_type", "t3.large"),
+    sdk.WithTag("env", "production"),
+)
+
+// A relationship between two resources
+rel := sdk.NewRelationship(
+    resourceA,         // source
+    resourceB,         // target
+    sdk.RelDependsOn,  // relationship type
+)
+```
 
 ## Build
 
 ```bash
 go build -o kt-plugin-my-provider .
+```
+
+## Contributing
+
+PRs welcome. For significant changes, open an issue first.
+
+```bash
+# Dev setup
+go mod tidy
+go test ./... -v -count=1 -race
+go build ./...
 ```
 
 ## License
