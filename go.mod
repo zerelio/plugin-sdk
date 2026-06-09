@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/hashicorp/go-plugin v1.8.0
-	github.com/knowledgetree-dev/knowledge-tree-types v0.1.0
+	github.com/knowledgetree-dev/knowledge-tree-types v0.1.1
 	golang.org/x/crypto v0.51.0
 	golang.org/x/time v0.15.0
 	google.golang.org/grpc v1.81.0
