@@ -15,9 +15,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	pb "github.com/knowledgetree-dev/knowledge-tree-sdk/pb"
-	plugintypes "github.com/knowledgetree-dev/knowledge-tree-sdk/plugin"
-	"github.com/knowledgetree-dev/knowledge-tree-types"
+	pb "github.com/zerelio/plugin-sdk/pb"
+	plugintypes "github.com/zerelio/plugin-sdk/plugin"
+	"github.com/zerelio/plugin-sdk/types"
 )
 
 // PluginHandshake is the shared handshake configuration used by all Knowledge

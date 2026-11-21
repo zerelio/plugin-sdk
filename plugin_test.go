@@ -6,8 +6,8 @@ import (
 
 	"google.golang.org/grpc"
 
-	plugintypes "github.com/knowledgetree-dev/knowledge-tree-sdk/plugin"
-	"github.com/knowledgetree-dev/knowledge-tree-types"
+	plugintypes "github.com/zerelio/plugin-sdk/plugin"
+	"github.com/zerelio/plugin-sdk/types"
 )
 
 func TestBasePlugin_SetName(t *testing.T) {

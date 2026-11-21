@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/knowledgetree-dev/knowledge-tree-sdk/resilience"
+	"github.com/zerelio/plugin-sdk/resilience"
 	"golang.org/x/time/rate"
 )
 

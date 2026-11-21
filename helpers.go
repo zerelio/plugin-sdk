@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	plugintypes "github.com/knowledgetree-dev/knowledge-tree-sdk/plugin"
-	"github.com/knowledgetree-dev/knowledge-tree-types"
+	plugintypes "github.com/zerelio/plugin-sdk/plugin"
+	"github.com/zerelio/plugin-sdk/types"
 )
 
 // NewResource creates a new Resource with auto-generated ID. The ID is composed

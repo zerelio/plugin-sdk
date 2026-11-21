@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/knowledgetree-dev/knowledge-tree-types"
+	"github.com/zerelio/plugin-sdk/types"
 )
 
 func TestNewResource(t *testing.T) {
