@@ -1,24 +1,22 @@
 # Binaries
 *.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-kt-plugin-*
-
-# Test binary
 *.test
-
-# Output of go coverage
 *.out
+/dist/
+
+# Internal dev artifacts — not for public repos
+AGENTS.md
+CURRENT_STATE.md
+NEXT_SESSION.md
+ROADMAP.md
+docs/execution-log/
+docs/phase-zero/
+docs/research/
 
 # IDE
 .idea/
 .vscode/
 *.swp
-*.swo
+.DS_Store
 
-# Runtime artifacts
-agentdb.rvf
-agentdb.rvf.lock
-ruvector.db
+# Plugin binary
